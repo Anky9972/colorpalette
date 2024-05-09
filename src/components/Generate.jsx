@@ -133,19 +133,19 @@ function Generate() {
 
   return (
     <>
-    <div className=" w-full h-full md:h-full flex justify-center items-baseline  ">
+    <div className=" w-full h-4/5 md:h-full flex justify-center items-baseline bg-red-800  ">
 
       <div
         id="colorPalette"
-        className="w-full md:h-full flex flex-col md:flex-row mt-[117px] md:mt-0 "
+        className="w-full md:h-full flex h-full flex-col md:flex-row mt-[120px] md:mt-0 "
       >
-        <div className=" md:hidden left-5 absolute bottom-0">
-          <button className="w-24 h-10 bg-slate-200" onClick={handleGenerateButtonClick}>Generate</button>
+        <div className=" md:hidden  w-full absolute bottom-0">
+          <button className="w-[100%] h-12 bg-black text-white text-xl font-bold" onClick={handleGenerateButtonClick}>Generate</button>
         </div>
         {colorPalette.map((color, index) => (
           <div
             key={index} 
-            className="color-box w-full h-[110px] md:h-full flex flex-col justify-end items-center"
+            className="color-box w-full h-[136px] md:h-full flex flex-col justify-end items-center"
             style={{
               backgroundColor: color.rgb,
               color: getTextColor(color.hex),
