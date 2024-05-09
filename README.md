@@ -1,4 +1,5 @@
 # Color Palette
+## Live link : https://colorpalettegenerate.vercel.app/
 
 ![Project Image](project_image.png)
 
