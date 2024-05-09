@@ -30,7 +30,7 @@ const AuthenticationContextProvider = ({ children }) => {
       alert("Passwords do not match!");
       return;
     }
-    const url = "http://localhost:4000/api/v1/signup";
+    const url = "https://colorpalettebackend.onrender.com/api/v1/signup";
     setLoading(true)
     try {
       const res = await fetch(url, {
@@ -66,7 +66,7 @@ const AuthenticationContextProvider = ({ children }) => {
     e.preventDefault();
     setLoading(true)
     try {
-      const response = await fetch("http://localhost:4000/api/v1/login", {
+      const response = await fetch("https://colorpalettebackend.onrender.com/api/v1/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -94,7 +94,7 @@ const AuthenticationContextProvider = ({ children }) => {
 
   const handleSave = async () => {
     setLoading(true)
-    const url = 'http://localhost:4000/api/v1/save';
+    const url = 'https://colorpalettebackend.onrender.com/api/v1/save';
     try {
       const res = await fetch(url, {
         method: "POST",
@@ -121,7 +121,7 @@ const AuthenticationContextProvider = ({ children }) => {
   }
 
   const SaveFullPalette = async (colors) => {
-    const url = 'http://localhost:4000/api/v1/savefullpalette';
+    const url = 'https://colorpalettebackend.onrender.com/api/v1/savefullpalette';
     setLoading(true)
     try {
       const res = await fetch(url, {
@@ -150,7 +150,7 @@ const AuthenticationContextProvider = ({ children }) => {
   const handleGetSave = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/getsaved/${userId}`, {
+      const res = await fetch(`https://colorpalettebackend.onrender.com/api/v1/getsaved/${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -171,7 +171,7 @@ const AuthenticationContextProvider = ({ children }) => {
   const getFullPalette = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:4000/api/v1/getfullpalette/${userId}`, {
+      const res = await fetch(`https://colorpalettebackend.onrender.com/api/v1/getfullpalette/${userId}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

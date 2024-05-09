@@ -88,7 +88,7 @@ const handleUrlSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await fetch(`http://localhost:4000/api/v1/image-proxy?imageUrl=${encodeURIComponent(urlInput)}`, {
+    const response = await fetch(`https://colorpalettebackend.onrender.com/api/v1/image-proxy?imageUrl=${encodeURIComponent(urlInput)}`, {
       method: 'GET',
     });
 
