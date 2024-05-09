@@ -15,7 +15,7 @@ import { ImCross } from "react-icons/im";
 import { Authentication } from "../context/Authentication";
 
 function Generate() {
-  const { setColors, adjust, setAdjust, menu, setMenu } =
+  const { setColors, adjust, setAdjust, menu, setMenu,showsavedcolors,setShowsavedcolors } =
     useContext(ColorState);
   const {
     setSinglePalette,
@@ -33,7 +33,7 @@ function Generate() {
   const [rangevalue2, setRangeValue2] = useState(0);
   const [rangevalue3, setRangeValue3] = useState(0);
   const [rangevalue4, setRangeValue4] = useState(0);
-  const [showsavedcolors, setShowsavedcolors] = useState(true);
+  // const [showsavedcolors, setShowsavedcolors] = useState(true);
 
   function getRandomInt(max) {
     return Math.floor(Math.random() * max);
@@ -115,9 +115,21 @@ function Generate() {
   }, []);
 
   useEffect(() => {
-    handleGetSave();
-    getFullPalette();
+    if(isLoggedIn)
+      {
+
+        handleGetSave();
+        getFullPalette();
+      }
   }, [menu]);
+
+  function handleGenerateButtonClick() {
+    generateRandomPalette();
+    // Trigger spacebar keydown event
+    const event = new KeyboardEvent("keydown", { keyCode: 32 });
+    document.body.dispatchEvent(event);
+  }
+
 
   return (
     <>
@@ -127,6 +139,9 @@ function Generate() {
         id="colorPalette"
         className="w-full md:h-full flex flex-col md:flex-row mt-[117px] md:mt-0 "
       >
+        <div className=" md:hidden left-5 absolute bottom-0">
+          <button className="w-24 h-10 bg-slate-200" onClick={handleGenerateButtonClick}>Generate</button>
+        </div>
         {colorPalette.map((color, index) => (
           <div
             key={index} 
@@ -216,7 +231,7 @@ function Generate() {
         ))}
         {menu && (
           <motion.div
-            className=" h-full md:h-[84%]  right-0 fixed md:relative md:z-0 z-40 bg-white  w-full top-0 md:mt-28  md:w-[120%] overflow-y-scroll"
+            className=" h-full md:h-[84%]  right-0 fixed md:relative md:z-0 z-40 bg-white  w-full top-0 md:mt-[120px]  md:w-[120%] overflow-y-scroll"
             // initial={{ width: 0 }}
             // animate={{ width: "120%" }}
             transition={{ duration: 0.5 }}

@@ -7,6 +7,7 @@ const ColorStateContextProvider = ({children})=>{
     const[adjust,setAdjust] = useState(false)
     const [menu,setMenu] = useState(false)
     const [ismenuopen, setIsMenuOpen] = useState(false);
+    const [showsavedcolors, setShowsavedcolors] = useState(true);
     const states = {
         colors,
         setColors,
@@ -15,7 +16,9 @@ const ColorStateContextProvider = ({children})=>{
         menu,
         setMenu,
         ismenuopen,
-        setIsMenuOpen
+        setIsMenuOpen,
+        showsavedcolors,
+        setShowsavedcolors
     }
 
     return <ColorState.Provider value={states}>{children}</ColorState.Provider>

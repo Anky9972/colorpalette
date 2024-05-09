@@ -67,7 +67,7 @@ function Tool() {
       
       generateColors();
     }
-  }, [viewColor,generateColors]);
+  }, []);
   
   const nearest = nearestColor.from(colors1);
   function getColorName(hexColor) {

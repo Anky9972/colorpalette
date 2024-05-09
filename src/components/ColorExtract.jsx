@@ -14,13 +14,13 @@ const ColorExtract = () => {
   const [isUrlMode, setIsUrlMode] = useState(false);
   const [captured,setCaptured] = useState(false);
   const videoRef = React.useRef();
-  console.log('is camerea open',isCameraOpen)
+  // console.log('is camerea open',isCameraOpen)
 
   useEffect(() => {
     if (selectedImage) {
       extractColors(selectedImage)
         .then((colors) => {
-          console.log('Extracted Colors:', colors);
+          // console.log('Extracted Colors:', colors);
           setExtractedColors(colors);
         })
         .catch((error) => {
@@ -80,7 +80,7 @@ const capturePhoto = () => {
   const retakePhoto = () => {
     setSelectedImage(null);
     setIsCameraOpen(true);
-    console.log('clicked retake')
+    // console.log('clicked retake')
   };
 
   // Function to handle URL input
@@ -101,7 +101,7 @@ const handleUrlSubmit = async (e) => {
     setSelectedImage(imageUrl); 
     setIsUrlMode(false); 
   } catch (error) {
-    console.log('Error fetching image:', error);
+    console.error('Error fetching image:', error);
     
   }
 };

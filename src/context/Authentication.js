@@ -77,7 +77,7 @@ const AuthenticationContextProvider = ({ children }) => {
         }),
       });
       const json = await response.json();
-      console.log("json login login response ", json);
+      // console.log("json login login response ", json);
       if (json.success) {
         setIsLoggedIn(true);
         saveToken(response.token);
@@ -115,7 +115,8 @@ const AuthenticationContextProvider = ({ children }) => {
         toast.error('Failed to save color');
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
+      console.error(e)
       toast.error('Error while saving color');
     }
   }
@@ -142,7 +143,7 @@ const AuthenticationContextProvider = ({ children }) => {
         toast.error('Failed to save palette');
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
       toast.error('Error while saving palette');
     }
   }
@@ -157,12 +158,12 @@ const AuthenticationContextProvider = ({ children }) => {
         },
       });
       const json = await res.json();
-      console.log("json in get", json);
+      // console.log("json in get", json);
       if (json.success) {
         setSingleColor(json.savedPalettes);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     } finally {
       setLoading(false);
     }
@@ -178,12 +179,12 @@ const AuthenticationContextProvider = ({ children }) => {
         },
       });
       const json = await res.json();
-      console.log("json in get", json);
+      // console.log("json in get", json);
       if (json.success) {
         setFullPalette(json.savedPalettes);
       }
     } catch (e) {
-      console.log(e);
+      console.error(e);
     } finally {
       setLoading(false);
     }

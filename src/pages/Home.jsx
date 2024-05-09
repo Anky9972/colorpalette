@@ -1,12 +1,12 @@
 import { NavLink } from 'react-router-dom';
-import { motion, useAnimation, useViewportScroll } from 'framer-motion';
+import { motion, useAnimation, useScroll } from 'framer-motion';
 import { useEffect, useState, useMemo } from 'react';
 
 function Home() {
   const [currentColorIndex, setCurrentColorIndex] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const controls = useAnimation();
-  const { scrollYProgress } = useViewportScroll();
+  const { scrollYProgress } = useScroll();
 
   const colors = useMemo(() => ['#FF6633', '#FFB399', '#FF33FF', '#FFFF99', '#00B3E6', '#E6B333', '#3366E6', '#999966'], []);
 
@@ -34,7 +34,7 @@ function Home() {
   }, [colors, currentColorIndex, controls]);
 
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((latest) => {
+    const unsubscribe = scrollYProgress.on("change",(latest) => {
       if (latest >= 0.5) {
         setCurrentPage(1);
       } else {
