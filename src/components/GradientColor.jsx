@@ -62,16 +62,16 @@ const GradientColor = () => {
 
   return (
     <>
-    <div className="w-full h-full flex flex-col   bg-red-200  ">
+    <div className="w-full h-4/5 md:h-full flex flex-col   bg-black  ">
       
-      <div className=" flex flex-col justify-center items-end mt-[117px] md:mt-[128]  w-full h-auto">
-      <div className=" md:hidden left-5 absolute z-40 bottom-0">
-          <button className="w-24 h-10 bg-slate-200" onClick={handleGenerateButtonClick}>Generate</button>
+      <div className=" flex flex-col justify-center items-end mt-[120px] md:mt-[122px]  w-full h-auto">
+      <div className=" md:hidden w-full absolute  bottom-0">
+          <button className="w-full h-12 bg-black text-white " onClick={handleGenerateButtonClick}>Generate</button>
         </div>
         {colors.map((color, index) => (
           <motion.div
             key={index}
-            className="w-full h-[110px] md:h-[118px] relative"
+            className="w-full h-[136px] md:h-[117px] relative"
             style={{ background: color }}
             onClick={() => handleCopyCode(index)}
           >
