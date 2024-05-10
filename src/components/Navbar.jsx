@@ -85,18 +85,18 @@ function Navbar() {
           </ul>
           {ismenuopen && (
             <div className='w-1/2 right-0 b h-1/2 fixed  z-50  top-[69px] '>
-              <ul className=' md:w-1/2 flex bg-white h-4/5 flex-col justify-center items-center gap-6'>
+              <ul className=' md:w-1/2 flex bg-white h-3/5 flex-col justify-center items-center '>
                 <>
-                  <li><NavLink to='/gradient' onClick={() => { setIsMenuOpen(false) }}>Gradient</NavLink></li>
+                  <li className='w-full border-b text-3xl border-slate-400 font-bold  h-20 flex justify-center items-center'><NavLink to='/gradient' onClick={() => { setIsMenuOpen(false) }}>Gradient</NavLink></li>
                   {isLoggedIn ? (
                     <>
-                      <li className='w-10 h-10 hover:bg-slate-200 rounded-full flex justify-center items-center text-3xl'><PiUserCircleThin /></li>
-                      <li><button className='w-24 h-10 rounded-md bg-black text-white' onClick={handleLogout}>Logout</button></li>
+                      <li className='w-full border-b text-5xl border-slate-400  h-20 flex justify-center items-center'><PiUserCircleThin /></li>
+                      <li className='w-full  text-3xl font-bold  h-20 flex justify-center items-center'><button className='w-full h-full' onClick={handleLogout}>Logout</button></li>
                     </>
                   ) : (
                     <>
-                      <li><button className='w-24 h-10 rounded-md bg-slate-200' onClick={() => { setSignin(true); setIsMenuOpen(false) }}>Sign in</button></li>
-                      <li><button className='w-24 h-10 rounded-md bg-black text-white' onClick={() => { setSignup(true); setIsMenuOpen(false) }}>Sign up</button></li>
+                      <li className='w-full border-b text-3xl font-bold border-slate-400  h-20 flex justify-center items-center'><button className='w-full h-full' onClick={() => { setSignin(true); setIsMenuOpen(false) }}>Sign in</button></li>
+                      <li className='w-full   h-20 font-bold text-3xl flex justify-center items-center'><button className='w-full h-full ' onClick={() => { setSignup(true); setIsMenuOpen(false) }}>Sign up</button></li>
                     </>
                   )}
                 </>
