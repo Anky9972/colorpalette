@@ -145,7 +145,7 @@ function Generate() {
         {colorPalette.map((color, index) => (
           <div
             key={index} 
-            className="color-box w-full h-[136px] md:h-full flex flex-col justify-end items-center"
+            className="color-box w-full h-[138px] md:h-full flex flex-col justify-end items-center"
             style={{
               backgroundColor: color.rgb,
               color: getTextColor(color.hex),
