@@ -140,7 +140,7 @@ function Generate() {
         className="w-full md:h-full flex h-full flex-col md:flex-row mt-[120px] md:mt-0 "
       >
         <div className=" md:hidden  w-full absolute bottom-0">
-          <button className="w-[100%] h-12 bg-black text-white text-xl font-bold" onClick={handleGenerateButtonClick}>Generate</button>
+          <button className="w-[100%] h-14 bg-black text-white text-xl font-bold" onClick={handleGenerateButtonClick}>Generate</button>
         </div>
         {colorPalette.map((color, index) => (
           <div
