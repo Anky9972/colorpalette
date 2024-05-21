@@ -56,7 +56,7 @@ const Login = () => {
                 Forgot password?
               </NavLink> */}
 
-              <span className="text-lime-500" onClick={()=>setForgot(true)}>
+              <span className="text-lime-500 hover:cursor-pointer" onClick={()=>setForgot(true)}>
                 Forgot Password?
               </span>
               <button className="w-full bg-red-400 h-10 flex justify-center items-center" type="submit">

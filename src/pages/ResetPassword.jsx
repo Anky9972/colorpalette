@@ -2,17 +2,22 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from 'react-icons/fa'; 
+import { ThreeDots } from 'react-loader-spinner';
+import toast from 'react-hot-toast';
 
 const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); 
+  const [loading,setLoading] = useState(false);
   const { token } = useParams();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       await axios.put(`https://colorpalettebackend.onrender.com/api/v1/reset-password/${token}`, { newPassword });
-      alert('Password reset successful');
+      toast.success('Password reset successful');
+      setLoading(false)
     } catch (error) {
       console.error(error);
       alert('Error resetting password');
@@ -41,7 +46,12 @@ const ResetPassword = () => {
             {showPassword ? <FaEyeSlash /> : <FaEye />} 
           </button>
         </div>
-        <button type="submit" className='h-12 font-bold text-lg bg-red-400'>Reset Password</button>
+        <button type="submit" className='h-12 font-bold text-lg bg-red-400 flex justify-center items-center'>
+        {
+                  loading ? (<ThreeDots width='38' color="#ffffff"/>): 'Reset Password'
+                  
+                  
+                }</button>
       </form>
     </div>
   );
