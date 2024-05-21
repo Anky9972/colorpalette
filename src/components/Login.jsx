@@ -5,9 +5,10 @@ import { Authentication } from "../context/Authentication";
 import { FcGoogle } from "react-icons/fc";
 import { ThreeDots } from "react-loader-spinner";
 import ForgotPassword from "../pages/ForgotPassword";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Login = () => {
-
+  const [showPassword, setShowPassword] = useState(false); 
   const [forgot,setForgot] = useState(false)
   const { credentials, setCredentials, handleLogin,setSignup,signup,setSignin ,loading } = useContext(
     Authentication
@@ -43,8 +44,8 @@ const Login = () => {
                 required
               />
               <input
+              type={showPassword ? "text" : "password"} 
                 className="w-full h-10 bg-blue-50 p-4"
-                type="password"
                 name="password"
                 placeholder="Password"
                 value={credentials.password}
@@ -55,6 +56,13 @@ const Login = () => {
               {/* <NavLink to="/forgot" className="text-lime-500">
                 Forgot password?
               </NavLink> */}
+              <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className='absolute mt-[76px] right-14  mr-3 text-lg ' 
+          >
+            {showPassword ? <FaEyeSlash /> : <FaEye />} 
+          </button>
 
               <span className="text-lime-500 hover:cursor-pointer" onClick={()=>setForgot(true)}>
                 Forgot Password?

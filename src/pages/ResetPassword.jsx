@@ -26,7 +26,7 @@ const ResetPassword = () => {
 
   return (
     <div className='w-full h-full bg-slate-100 flex justify-center items-center flex-col gap-10'>
-      <h1 className='text-5xl font-bold'>Reset Password!</h1>
+      <h1 className='text-4xl md:text-5xl font-bold'>Reset Password!</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-5'>
         <div className="relative">
           <input
@@ -35,13 +35,13 @@ const ResetPassword = () => {
             onChange={(e) => setNewPassword(e.target.value)}
             placeholder="Enter new password"
             required
-            className='h-12 w-64 border p-4 bg-blue-100 font-bold pr-12' 
+            className='h-12 w-64 border p-4 bg-blue-100 font-bold pr-12 outline-none' 
           />
           
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className='absolute top-0 right-0 h-full w-12 text-lg bg-blue-100' 
+            className='absolute top-0 right-0 h-full w-6 mr-3 text-lg bg-blue-100' 
           >
             {showPassword ? <FaEyeSlash /> : <FaEye />} 
           </button>
