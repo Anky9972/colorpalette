@@ -1,11 +1,14 @@
-// Login.js
-import React, { useContext } from "react";
+
+import React, { useContext, useState } from "react";
 import { Authentication } from "../context/Authentication";
-import { NavLink } from "react-router-dom";
+// import { NavLink, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { ThreeDots } from "react-loader-spinner";
+import ForgotPassword from "../pages/ForgotPassword";
 
 const Login = () => {
+
+  const [forgot,setForgot] = useState(false)
   const { credentials, setCredentials, handleLogin,setSignup,signup,setSignin ,loading } = useContext(
     Authentication
   );
@@ -15,7 +18,11 @@ const Login = () => {
   };
 
   return (
-    <div className=" w-full h-full flex justify-center bg-slate-200 ">
+    <>
+    {
+      forgot ? (<ForgotPassword/>) :
+      (
+        <div className=" w-full h-full flex justify-center bg-slate-200 ">
       <div className="flex flex-row justify-center items-center w-full h-full">
         <div className="w-full h-full bg-white flex flex-col gap-6 justify-center items-center">
             <h1 className="text-3xl font-bold text-center">Login</h1>
@@ -23,7 +30,7 @@ const Login = () => {
             <form
               onSubmit={handleLogin}
               className=" h-3/4 flex flex-col gap-6 w-full shadow-none bg-transparent"
-            >
+              >
               <input
                 className="w-full h-10 bg-blue-50 p-4"
                 type="email"
@@ -44,14 +51,18 @@ const Login = () => {
                 onChange={onChange}
                 autoComplete="password"
                 required
-              />
-              <NavLink to="/forgot" className="text-lime-500">
+                />
+              {/* <NavLink to="/forgot" className="text-lime-500">
                 Forgot password?
-              </NavLink>
+              </NavLink> */}
+
+              <span className="text-lime-500" onClick={()=>setForgot(true)}>
+                Forgot Password?
+              </span>
               <button className="w-full bg-red-400 h-10 flex justify-center items-center" type="submit">
                 {
                   loading ? (<ThreeDots width='38' color="#ffffff"/>): 'Login'
-
+                  
                   
                 }
               </button>
@@ -74,7 +85,7 @@ const Login = () => {
               <a
                 href="#" onClick={()=>{setSignup(true); setSignin(false) }}
                 className="text-lime-500 text-bold text-base ml-2"
-              >
+                >
                 Create Account
               </a>
             </div>
@@ -82,6 +93,10 @@ const Login = () => {
         </div>
       </div>
     </div>
+      )
+    }
+    
+                </>
   );
 };
 

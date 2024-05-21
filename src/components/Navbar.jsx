@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation ,matchPath} from 'react-router-dom';
 import { motion } from 'framer-motion';
 import React, { useContext, useEffect, useState } from 'react';
 import { Authentication } from '../context/Authentication';
@@ -13,12 +13,14 @@ function Navbar() {
   
   const { ismenuopen, setIsMenuOpen } = useContext(ColorState);
   const location = useLocation();
+  const isRootPath = location.pathname === '/';
+  const isResetPasswordPath = matchPath('/reset-password/:token', location.pathname);
 
   // Function to generate random letter colors
   const generateLetterColors = () => {
     const colors = [];
     for (let i = 0; i < text.length; i++) {
-      colors.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`); // Random hex color
+      colors.push(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
     }
     return colors;
   };
@@ -112,7 +114,8 @@ function Navbar() {
           </div>
 
         </nav>
-        {!['/'].includes(location.pathname) && <Tool />}
+        {!isRootPath && !isResetPasswordPath &&<Tool />}
+        
       </header>
     </>
   );
