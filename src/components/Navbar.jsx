@@ -308,7 +308,7 @@ function Navbar() {
                   >
                     Image Picker
                   </li>
-                  <li className="text-2xl text-green-500 font-bold">
+                  <li className="text-2xl text-green-500 font-bold" onClick={() => navigate("/contrast-checker")}>
                     Contrast Checker
                   </li>
                 </ul>
@@ -316,8 +316,8 @@ function Navbar() {
                 <ul className="flex flex-col gap-5">
                   <li className="text-2xl font-semibold" onClick={()=>navigate("/colors")}>List of colors</li>
                   <li className="text-2xl font-semibold" onClick={()=>navigate("/gradients")}>Browse Gradients</li>
-                  <li className="text-2xl font-semibold">Image Picker</li>
-                  <li className="text-2xl font-semibold">Browse Gradients</li>
+                  <li className="text-2xl font-semibold"  onClick={() => navigate("/upcoming")}>Color Picker</li>
+                  <li className="text-2xl font-semibold"  onClick={() => navigate("/upcoming")}>Collage Maker</li>
                 </ul>
                 <h1 className="text-lg font-bold text-gray-500">ACCOUNT</h1>
                 <ul className="flex flex-col gap-5">

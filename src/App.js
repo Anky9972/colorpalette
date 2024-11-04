@@ -17,6 +17,7 @@ import Footer from "./components/Footer";
 import Colors from "./components/tools/Colors";
 import GradientPalette from "./components/tools/Gradients";
 import CollageMaker from "./components/collage-maker/CollageMaker";
+import ComingSoon from "./pages/ComingSoon";
 function App() {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -44,6 +45,7 @@ function App() {
             <Route path="/colors" element={<Colors />}></Route>
             <Route path="/gradients" element={<GradientPalette />}></Route>
             <Route path="/collage-maker" element={<CollageMaker />}></Route>
+            <Route path="/upcoming" element={<ComingSoon />}></Route>
             <Route
               path="/reset-password/:token"
               element={<ResetPassword />}
