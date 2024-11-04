@@ -5,16 +5,18 @@ import { Authentication } from '../context/Authentication';
 import { ColorState } from '../context/ColorState';
 import { ImCross } from 'react-icons/im';
 import {motion} from 'framer-motion';
+import { CiHeart } from 'react-icons/ci';
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
+
 function AllPalettes() {
   const [colorPalettes, setColorPalettes] = useState([]);
   const {menu,setMenu,showsavedcolors,setShowsavedcolors} = useContext(ColorState);
   const {singleColor,fullPalette} = useContext(Authentication)
-  // Function to generate random integer
+
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 
-  // Function to convert rgb color to hex
   function rgbToHex(rgb) {
     return '#' + rgb.map(component => {
       const hex = component.toString(16);
@@ -22,7 +24,6 @@ function AllPalettes() {
     }).join('');
   }
 
-  // Function to generate random color palette
   function generateRandomPalette() {
     const paletteSize = getRandomInt(5, 9);
     const palette = [];
@@ -34,14 +35,12 @@ function AllPalettes() {
     return palette;
   }
 
-  // Function to copy color code to clipboard
   function copyColorCode(rgbColor, hexColor) {
     const textToCopy = `${hexColor}`;
     navigator.clipboard.writeText(textToCopy);
     toast.success(`Color copied to clipboard!`);
   }
 
-  // Creating nearest color object
   const colors = colorNameList.reduce((obj, color) => {
     obj[color.name] = color.hex;
     return obj;
@@ -50,17 +49,14 @@ function AllPalettes() {
 
 
 
-  // Function to determine if text should be light or dark
   function getTextColor(hexColor) {
     
     const rgbColor = hexToRgb(hexColor);
     
     const luminance = (0.2126 * rgbColor.r + 0.7152 * rgbColor.g + 0.0722 * rgbColor.b) / 255;
-    // Return light color for dark backgrounds, dark color for light backgrounds
     return luminance > 0.5 ? '#000000' : '#ffffff';
   }
 
-  // Function to convert hex color to RGB
   function hexToRgb(hex) {
     const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
     hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
@@ -94,17 +90,11 @@ function AllPalettes() {
 
   function handleScroll() {
     const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-    // Calculate the distance scrolled from the top
     const scrollDistance = scrollTop + clientHeight;
-    // Calculate the height of the scrollable area
     const scrollableHeight = scrollHeight - clientHeight;
-    // Calculate the scroll percentage
     const scrollPercentage = (scrollDistance / scrollableHeight) * 100;
-    // Check if the scroll percentage is greater than or equal to 80%
     if (scrollPercentage >= 80) {
-      // Delay the generation of new palettes by 500ms
       setTimeout(() => {
-        // Generate new palettes
         generateNewPalettes();
       }, 500);
     }
@@ -225,12 +215,12 @@ function AllPalettes() {
       </div>
       <div className=" md:hidden w-full h-full  gap-9 p-6">
         {colorPalettes.map((palette, paletteIndex) => (
-          <div key={paletteIndex} className="flex flex-row w-full h-24 mt-5 overflow-x-hidden justify-center items-center rounded-lg">
+          <div key={paletteIndex} className="flex flex-row flex-1 h-24 mt-5 overflow-x-hidden justify-center items-center rounded-lg">
             {palette.map((color, colorIndex) => (
               <div
                 key={colorIndex}
-                className="flex h-full justify-center items-center"
-                style={{ backgroundColor: color.rgb, color: getTextColor(color.hex), flexBasis: `${100 / palette.length}%` }}
+                className="flex h-full flex-1 hover:flex-[2] transition-all duration-200 justify-center items-center"
+                style={{ backgroundColor: color.rgb, color: getTextColor(color.hex) }}
                 onClick={() => copyColorCode(color.rgb, color.hex)}
               >
                 <div className="w-full h-full flex justify-center items-center opacity-0 hover:opacity-100">
@@ -245,12 +235,13 @@ function AllPalettes() {
       </div>
       <div className=" hidden md:grid w-full h-full  grid-cols-3 gap-9 p-10">
         {colorPalettes.map((palette, paletteIndex) => (
-          <div key={paletteIndex} className="flex flex-row w-full h-32 mt-5 overflow-x-hidden justify-center items-center rounded-lg">
+          <div className='flex flex-col gap-1'>
+          <div key={paletteIndex} className="flex flex-row w-full h-32 mt-5 overflow-x-hidden justify-center items-center rounded-xl">
             {palette.map((color, colorIndex) => (
               <div
                 key={colorIndex}
-                className="flex h-full justify-center items-center"
-                style={{ backgroundColor: color.rgb, color: getTextColor(color.hex), flexBasis: `${100 / palette.length}%` }}
+                className=" flex-1 hover:flex-[2] transition-all duration-200 h-full justify-center items-center"
+                style={{ backgroundColor: color.rgb, color: getTextColor(color.hex)}}
                 onClick={() => copyColorCode(color.rgb, color.hex)}
               >
                 <div className="w-full h-full flex justify-center items-center opacity-0 hover:opacity-100">
@@ -258,6 +249,17 @@ function AllPalettes() {
                 </div>
               </div>
             ))}
+          </div>
+          <div className='w-full'>
+            <div className='flex w-full justify-end gap-2'>
+              <span>
+                <CiHeart className='text-lg'/>
+              </span>
+              <span>
+                <HiOutlineDotsHorizontal className='text-lg'/>
+              </span>
+            </div>
+          </div>
           </div>
         ))}
       </div>

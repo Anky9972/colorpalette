@@ -1,45 +1,47 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { BiBorderAll } from "react-icons/bi";
 import { FaRegHeart } from "react-icons/fa";
 import { FiShare2 } from "react-icons/fi";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
-import { IoCameraOutline, IoContrast, IoEyeOutline } from "react-icons/io5";
+import { IoCameraOutline, IoCloseSharp, IoContrast, IoEyeOutline } from "react-icons/io5";
 import ColorExtract from "./ColorExtract";
 import { ImCross } from "react-icons/im";
 import { ColorState } from "../context/ColorState";
 import Variation from "./Variation";
-import chroma from "chroma-js";
-import nearestColor from "nearest-color";
-import colorNameList from "color-name-list";
-import { GoDotFill } from "react-icons/go";
+// import chroma from "chroma-js";
+// import nearestColor from "nearest-color";
+// import colorNameList from "color-name-list";
+// import { GoDotFill } from "react-icons/go";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Authentication } from "../context/Authentication";
-import { CiImageOn, CiLink } from "react-icons/ci";
-import {
-  FaFacebook,
-  FaPinterest,
-  FaRegFileCode,
-  FaRegFilePdf,
-  FaWhatsapp,
-} from "react-icons/fa6";
-import { BsFiletypeSvg } from "react-icons/bs";
-import {
-  sharePalette,
-  downloadPalettePDF,
-  downloadPalettePNG,
-  downloadPaletteSVG,
-} from "./Exports";
+// import { CiImageOn, CiLink } from "react-icons/ci";
+// import {
+//   FaFacebook,
+//   FaPinterest,
+//   FaRegFileCode,
+//   FaRegFilePdf,
+//   FaWhatsapp,
+// } from "react-icons/fa6";
+// import { BsFiletypeSvg } from "react-icons/bs";
+// import {
+//   sharePalette,
+//   downloadPalettePDF,
+//   downloadPalettePNG,
+//   downloadPaletteSVG,
+// } from "./Exports";
 import {toast} from 'react-hot-toast';
+import View from "./tools/View";
+import Share from "./tools/Share";
 
-function Tool() {
+function Tool({handleGenerateButtonClick}) {
   const { colors, setMenu, menu } = useContext(ColorState);
-  const { setAdjust } = useContext(ColorState);
+  const { setAdjust, adjust } = useContext(ColorState);
   const { SaveFullPalette } = useContext(Authentication);
   const [showColorExtract, setShowColorExtract] = useState(false);
   const [variation, setVariation] = useState(false);
   const [view, setView] = useState(false);
   const [viewColor, setViewColor] = useState("rgb(220,220,220)");
-  const [selectedDotIndex, setSelectedDotIndex] = useState(null);
+  // const [selectedDotIndex, setSelectedDotIndex] = useState(null);
   const [share, setShare] = useState(false);
   const [embeddedcode, setEmbeddedcode] = useState("");
   const [codediv, setCodediv] = useState(false);
@@ -49,72 +51,49 @@ function Tool() {
     setShowColorExtract(!showColorExtract);
   };
 
-  const generateColors = () => {
-    const rgbValues = viewColor.match(/\d+/g).map(Number);
-    const chromaColor = chroma.rgb(rgbValues);
+  // const generateColors = () => {
+  //   const rgbValues = viewColor.match(/\d+/g).map(Number);
+  //   const chromaColor = chroma.rgb(rgbValues);
 
-    // Set other color values
-    setHslColor(chromaColor.hsl());
-    setHsvColor(chromaColor.hsv());
-    setCmykColor(chromaColor.cmyk());
-    setLabColor(chromaColor.lab());
-    setRgb(viewColor);
-    setHex(chromaColor.hex());
+  //   // Set other color values
+  //   setHslColor(chromaColor.hsl());
+  //   setHsvColor(chromaColor.hsv());
+  //   setCmykColor(chromaColor.cmyk());
+  //   setLabColor(chromaColor.lab());
+  //   setRgb(viewColor);
+  //   setHex(chromaColor.hex());
 
-    // Find the nearest color name
-    const nearestColorName = getColorName(chromaColor.hex());
-    setColorName(nearestColorName);
-  };
+  //   // Find the nearest color name
+  //   const nearestColorName = getColorName(chromaColor.hex());
+  //   setColorName(nearestColorName);
+  // };
 
-  // State variables for color values
-  const [rgb, setRgb] = useState([]);
-  const [hex, setHex] = useState([]);
-  const [hslColor, setHslColor] = useState([]);
-  const [hsvColor, setHsvColor] = useState([]);
-  const [cmykColor, setCmykColor] = useState([]);
-  const [labColor, setLabColor] = useState([]);
-  const [colorName, setColorName] = useState("Unknown");
+  // // State variables for color values
+  // const [rgb, setRgb] = useState([]);
+  // const [hex, setHex] = useState([]);
+  // const [hslColor, setHslColor] = useState([]);
+  // const [hsvColor, setHsvColor] = useState([]);
+  // const [cmykColor, setCmykColor] = useState([]);
+  // const [labColor, setLabColor] = useState([]);
+  // const [colorName, setColorName] = useState("Unknown");
 
   // Creating nearest color object
-  const colors1 = colorNameList.reduce((obj, color) => {
-    obj[color.name] = color.hex;
-    return obj;
-  }, {});
-  useEffect(() => {
-    if (viewColor) {
-      generateColors();
-    }
-  }, []);
+  // const colors1 = colorNameList.reduce((obj, color) => {
+  //   obj[color.name] = color.hex;
+  //   return obj;
+  // }, {});
+  // useEffect(() => {
+  //   if (viewColor) {
+  //     generateColors();
+  //   }
+  // }, []);
 
-  const nearest = nearestColor.from(colors1);
-  function getColorName(hexColor) {
-    const colorName = nearest(hexColor);
-    return colorName ? colorName.name : "Unknown";
-  }
+  // const nearest = nearestColor.from(colors1);
+  // function getColorName(hexColor) {
+  //   const colorName = nearest(hexColor);
+  //   return colorName ? colorName.name : "Unknown";
+  // }
 
-  // Format HSB and HSL values with three decimal places and separated by commas
-  const formattedHsvColor = hsvColor
-    .map((value) => value.toFixed(3))
-    .join(", ");
-  const formattedHslColor = hslColor
-    .map((value) => value.toFixed(3))
-    .join(", ");
-
-  // Format CMYK values with three decimal places and separated by commas
-  const formattedCmykColor = cmykColor
-    .map((value) => value.toFixed(3))
-    .join(", ");
-
-  // Format LAB values with three decimal places and separated by commas
-  const formattedLabColor = labColor
-    .map((value) => value.toFixed(3))
-    .join(", ");
-
-  // Calculate the luminance of the background color
-  const luminance =
-    chroma.contrast("black", viewColor) > chroma.contrast("white", viewColor)
-      ? "black"
-      : "white";
 
   function loadEmbeddedPalette(colors) {
     const colorsString = colors
@@ -152,152 +131,80 @@ function Tool() {
   }
 
   return (
-    <div className="h-[51px]   w-full mt-[1px]  flex justify-center items-center bg-white">
-      <div className="w-1/2 h-full hidden md:flex justify-start ml-16 items-center">
+    <div className="p-2 w-full flex justify-center items-center bg-white">
+      <div className="w-1/2 h-full hidden lg:flex justify-start ml-16 items-center text-sm font-semibold text-gray-500">
         Press the space bar to generate color palettes!
       </div>
-      <div className="w-1/2 h-full ">
-        <ul className="w-full h-full  flex justify-center items-center gap-4">
-          <li className="text-2xl flex justify-center items-center">
+      <div className=" lg:hidden  w-full">
+          <button className="px-2 py-1 border border-gray-200 text-md rounded-md font-semibold" onClick={handleGenerateButtonClick}>Generate</button>
+        </div>
+      <div className="w-full md:w-1/2 h-full ">
+        <ul className="w-full h-full  flex md:justify-end items-center gap-1 md:gap-2">
+          <li className=" flex justify-center items-center">
             <button
               onClick={toggleColorExtract}
-              className="w-10 h-8 rounded-md cursor-pointer hover:bg-slate-200 flex justify-center items-center"
+              className=" px-2 py-1 rounded-md cursor-pointer hover:bg-slate-100 flex justify-center items-center"
             >
-              <IoCameraOutline />
+              <IoCameraOutline className="text-xl"/>
             </button>
           </li>
-          <div className="border-r hidden md:block border-black h-7"></div>
-          <li className="hidden  text-xl w-10 h-8 rounded-md cursor-pointer hover:bg-slate-200 md:flex justify-center items-center">
-            <BiBorderAll onClick={() => setVariation(true)} />
+          <div className="border-r hidden md:block h-7"></div>
+          <li className="hidden  text-xl px-2 py-1 rounded-md cursor-pointer hover:bg-slate-100 md:flex justify-center items-center">
+            <BiBorderAll onClick={() => setVariation(!variation)} />
           </li>
-          <li className="hidden text-xl w-10 h-8 rounded-md cursor-pointer hover:bg-slate-200 md:flex justify-center items-center">
+          <li className="hidden text-xl px-2 py-1 rounded-md cursor-pointer hover:bg-slate-100 md:flex justify-center items-center">
             <IoContrast />
           </li>
-          <li className="hidden text-xl w-10 h-8 rounded-md cursor-pointer hover:bg-slate-200 md:flex justify-center items-center">
-            <HiAdjustmentsHorizontal onClick={() => setAdjust(true)} />{" "}
+          <li className="hidden text-xl px-2 py-1 rounded-md cursor-pointer hover:bg-slate-100 md:flex justify-center items-center">
+            <HiAdjustmentsHorizontal onClick={() => setAdjust(!adjust)} />{" "}
           </li>
-          <div className="border-r border-black h-7"></div>
+          <div className="border-r h-7"></div>
           <li
-            className="w-20  h-8 rounded-md hover:bg-slate-200 cursor-pointer flex gap-2 justify-center items-center"
+            className="px-4 py-1 rounded-md hover:bg-slate-100 cursor-pointer flex gap-2 justify-center items-center"
             onClick={() => {
               SaveFullPalette(colors);
             }}
           >
             <FaRegHeart className="text-lg" />
-            <span>Save</span>
+            <span className="hidden lg:block text-sm font-bold">Save</span>
           </li>
           <li
-            className="w-20  h-8 rounded-md hover:bg-slate-200 cursor-pointer flex gap-2 justify-center items-center"
-            onClick={() => setView(true)}
+            className="px-4 py-1 rounded-md hover:bg-slate-100 cursor-pointer flex gap-2 justify-center items-center"
+            onClick={() => setView(!view)}
           >
             <IoEyeOutline className="text-lg" />
-            <span>View</span>
+            <span className="hidden lg:block text-sm font-bold">View</span>
           </li>
           <li
-            className="w-20  h-8 rounded-md hover:bg-slate-200 cursor-pointer flex gap-2 justify-center items-center"
-            onClick={() => setShare(true)}
+            className="px-2 py-1 rounded-md hover:bg-slate-100 cursor-pointer flex gap-2 justify-center items-center"
+            onClick={() => setShare(!share)}
           >
             <FiShare2 className="text-lg" />
-            <span>Share</span>
+            <span className="hidden lg:block text-sm font-bold">Share</span>
           </li>
-          <div className="border-r border-black h-7"></div>
+          <div className="border-r h-7"></div>
           <li
-            className="w-10 h-8 rounded-md hover:bg-slate-200 cursor-pointer flex justify-center items-center"
-            onClick={() => setMenu(true)}
+            className="px-2 py-1 rounded-md hover:bg-slate-100 cursor-pointer flex justify-center items-center"
+            onClick={() => setMenu(!menu)}
           >
-            <RxHamburgerMenu className={`${menu ? "rotate-90" : ""}`} />
+            {/* <RxHamburgerMenu className={`${menu ? "rotate-90" : ""}`} /> */}
+            {
+              menu ? (<IoCloseSharp/>) : (<RxHamburgerMenu/>)
+            }
           </li>
         </ul>
       </div>
       <div className="">
-        {share && (
-          <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
-            <div className=" w-[95%] md:w-[30%] h-[65%] mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
-              <div className="w-full h-12  flex justify-start items-center border-b border-slate-150">
-                <span
-                  className="ml-1 mt-1 rounded-lg w-10 h-8 hover:bg-slate-200 flex justify-center items-center hover:cursor-pointer"
-                  onClick={() => setShare(false)}
-                >
-                  <ImCross />
-                </span>
-                <h1 className="m-auto mr-44 font-bold">Share Palette</h1>
-              </div>
-              <div className="w-full h-full grid grid-cols-4 grid-rows-3 p-3 gap-2">
-                <div
-                  onClick={() => sharePalette(colors)}
-                  className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out"
-                >
-                  <span>
-                    <CiLink className="text-5xl" />
-                  </span>
-                  <span>URL</span>
-                </div>
-                <div
-                  onClick={() => downloadPalettePDF(colors)}
-                  className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out"
-                >
-                  <span>
-                    <FaRegFilePdf className="text-4xl" />
-                  </span>
-                  <span>PDF</span>
-                </div>
-                <div
-                  onClick={() => downloadPalettePNG(colors)}
-                  className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out"
-                >
-                  <span>
-                    <CiImageOn className="text-4xl" />
-                  </span>
-                  <span>Image</span>
-                </div>
-                <div
-                  onClick={() => downloadPaletteSVG(colors)}
-                  className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out"
-                >
-                  <span>
-                    <BsFiletypeSvg className="text-4xl" />
-                  </span>
-                  <span>SVG</span>
-                </div>
-                <div
-                  onClick={() => {
-                    handleEmbeddbutton(colors)
-                  }}
-                  className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out"
-                >
-                  <span>
-                    <FaRegFileCode className="text-4xl" />
-                  </span>
-                  <span>Code</span>
-                </div>
-                
-                <div className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out">
-                  <span>
-                    <FaWhatsapp className="text-4xl" />
-                  </span>
-                  <span>Whatsapp</span>
-                </div>
-                <div className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out">
-                  <span>
-                    <FaFacebook className="text-4xl" />
-                  </span>
-                  <span>Facebook</span>
-                </div>
-                <div className="w-full h-full bg-slate-100 rounded-2xl flex flex-col justify-center items-center gap-3 hover:cursor-pointer hover:scale-105 duration-300 ease-in-out">
-                  <span>
-                    <FaPinterest className="text-4xl" />
-                  </span>
-                  <span>Pinterest</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        {
+          share && (
+            <Share setShare={setShare} share={share} handleEmbeddbutton={handleEmbeddbutton}/>
+          )
+        }
         {codediv && (
                   <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
                     <div className=" w-[95%] md:w-[30%] h-[65%] mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
                       <div className="w-full h-10 border-b flex justify-center items-center ">
-                        <span className="ml-2 hover:cursor-pointer" onClick={()=>setCodediv(false)}><ImCross/></span>
+                        <span className="ml-2 hover:cursor-pointer" onClick={()=>setCodediv(!codediv)}><ImCross/></span>
                       <h1 className="m-auto mr-52 font-bold">Code</h1>
                       </div>
                       <div className="h-4/5 p-5">
@@ -311,18 +218,18 @@ function Tool() {
                     </div>
                   </div>
                 )}
-        {view && (
+        {/* {view && (
           <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
             <div className=" w-[95%] md:w-[32%] h-3/4 mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
-              <div className="w-full h-16  flex justify-start items-center">
+              <div className="w-full h-16  flex justify-center items-center relative">
                 <span
-                  className="ml-2 rounded-lg w-10 h-8 hover:bg-slate-200 flex justify-center items-center hover:cursor-pointer"
-                  onClick={() => setView(false)}
+                  className="absolute left-1 rounded-lg p-1 hover:bg-slate-100 flex justify-center items-center hover:cursor-pointer"
+                  onClick={() => setView(!view)}
                 >
-                  <ImCross />
+                  <IoCloseSharp className="text-xl"/>
                 </span>
                 <div className="w-full flex justify-center items-center">
-                  <h1 className="font-bold mr-6 md:mr-4 ">Quick view</h1>
+                  <h1 className="font-bold">Quick view</h1>
                 </div>
               </div>
               <div
@@ -423,16 +330,24 @@ function Tool() {
               </div>
             </div>
           </div>
-        )}
+        )} */}
+        {
+          view && (
+            <View view={view} setView={setView} setViewColor={setViewColor} viewColor={viewColor}/>
+          )
+        }
         {variation && (
-          <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
+          <div className="w-full h-full left-0 z-50 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
             <div className="w-[62%] max-h-screen h-auto bg-white rounded-xl flex flex-col overflow-hidden">
-              <div className="w-full h-14 flex justify-between items-center">
-                <ImCross
+              <div className="w-full py-2 flex justify-center items-center relative border-b">
+                {/* <ImCross
                   className="ml-4 "
-                  onClick={() => setVariation(false)}
-                />
-                <span className="mr-[42%] font-bold text-lg">
+                  onClick={() => setVariation(!variation)}
+                /> */}
+                <span className="rounded-lg p-1 hover:bg-slate-100 absolute left-2">
+                <IoCloseSharp className="text-xl " onClick={() => setVariation(!variation)}/>
+                </span>
+                <span className=" font-bold text-lg">
                   Palette variations
                 </span>
               </div>

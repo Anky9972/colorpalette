@@ -2,12 +2,10 @@ import React, { useContext, useState } from 'react';
 import chroma from 'chroma-js'; // Import chroma-js
 import { ColorState } from '../context/ColorState';
 
-// Custom function to adjust luminance by changing the RGB values
 const adjustLuminance = (colorHex, luminance) => {
     const color = chroma(colorHex);
     const rgb = color.rgb();
 
-    // Adjust each RGB component based on the luminance value
     const adjustedRgb = rgb.map(component => {
         const adjustedComponent = component + (255 - component) * luminance;
         return Math.round(Math.min(255, Math.max(0, adjustedComponent)));
@@ -16,7 +14,6 @@ const adjustLuminance = (colorHex, luminance) => {
     return chroma.rgb(adjustedRgb).hex();
 };
 
-// ColorVariation component
 const ColorVariation = ({ colorPalette, parameter, scale }) => {
     
     const generateVariations = (color) => {
@@ -128,13 +125,11 @@ const ColorVariation = ({ colorPalette, parameter, scale }) => {
 };
 
 
-const App = () => {
+const Variation = () => {
     const { colors } = useContext(ColorState);
 
+    const [selectedParameter, setSelectedParameter] = useState("shade");
 
-    const [selectedParameter, setSelectedParameter] = useState(null);
-
-    // Function to generate scale values for each parameter
     const generateScale = (parameter) => {
         switch (parameter) {
             case 'shade':
@@ -153,38 +148,41 @@ const App = () => {
         }
     };
 
-    // Function to handle parameter click
     const handleParameterClick = (param) => {
         setSelectedParameter(param);
     };
 
     return (
-        <div className='flex flex-col  w-full'>
+        <div className='flex flex-col w-full'>
             <div className='w-full flex justify-center items-center'>
-                <ul className='flex gap-6 h-12 justify-center items-center '>
-                    <li onClick={() => handleParameterClick('shade')}>Shade</li>
-                    <li onClick={() => handleParameterClick('saturation')}>Saturation</li>
-                    <li onClick={() => handleParameterClick('brightness')}>Brightness</li>
-                    <li onClick={() => handleParameterClick('hue')}>Hue</li>
-                    <li onClick={() => handleParameterClick('temperature')}>Temperature</li>
-                    <li onClick={() => handleParameterClick('luminance')}>Luminance</li>
-                    <li onClick={() => handleParameterClick('gradient')}>Gradient</li>
+                <ul className='flex gap-6 h-12 justify-center items-center'>
+                    {['shade', 'saturation', 'brightness', 'hue', 'temperature', 'luminance', 'gradient'].map((param) => (
+                        <li
+                            key={param}
+                            onClick={() => handleParameterClick(param)}
+                            className={`cursor-pointer px-2 py-1 rounded ${
+                                selectedParameter === param ? 'font-bold rounded-md bg-gray-100' : ''
+                            }`}
+                        >
+                            {param.charAt(0).toUpperCase() + param.slice(1)}
+                        </li>
+                    ))}
                 </ul>
             </div>
             <div className='w-full flex justify-center items-center'>
-                <div className=' w-20'>
-                {selectedParameter && (
-                    <div className='ml-2' >
-                        <div style={{ display: 'flex' }} className='flex-col gap-[7px]'>
-                            {generateScale(selectedParameter).map((value, index) => (
-                                <span key={index} style={{ marginRight: '10px' }}>
-                                    {value}
-                                    {selectedParameter === 'temperature' ? 'K' : '%'}
-                                </span>
-                            ))}
+                <div className='w-20'>
+                    {selectedParameter && (
+                        <div className='mr-2 rounded-md flex flex-col items-center bg-gray-100 h-full py-1'>
+                            <div style={{ display: 'flex' }} className='flex-col gap-[7px]'>
+                                {generateScale(selectedParameter).map((value, index) => (
+                                    <span key={index} className='font-bold'>
+                                        {value}
+                                        {selectedParameter === 'temperature' ? 'K' : '%'}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                )}
+                    )}
                 </div>
                 <div>
                     {selectedParameter && (
@@ -200,4 +198,4 @@ const App = () => {
     );
 };
 
-export default App;
+export default Variation;

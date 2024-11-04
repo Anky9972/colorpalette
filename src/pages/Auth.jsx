@@ -1,68 +1,101 @@
-// Auth.js
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Authentication } from "../context/Authentication";
 import { ImCross } from "react-icons/im";
-import Login from "../components/Login";
-import Signup from "../components/Signup";
+import Signup from "../components/authentication/Signup";
+import { FaFacebook, FaGoogle } from "react-icons/fa";
+import SignIn from "../components/authentication/SignIn";
+import ForgotPassword from "./ForgotPassword";
 
 const Auth = () => {
-  const { signin, signup, setSignin, setSignup,isLoggedIn } = useContext(Authentication);
-  if(isLoggedIn){
-    handleClose();
-  }
+  const { signin, signup, setSignin, setSignup, isLoggedIn } = useContext(Authentication);
+  const [showForm, setShowForm] = useState(false);
+  const [forgotPassword, setForgotPassword] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      handleClose();
+    }
+  }, [isLoggedIn]); 
+
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+    window.addEventListener("keydown", handleEscape);
+
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, []);
+
   function handleClose() {
     setSignin(false);
     setSignup(false);
+    setShowForm(false);
+    setForgotPassword(false); 
+  }
+
+  function showSignIn() {
+    setSignin(true);
+    setSignup(false);
+    setShowForm(true);
+    setForgotPassword(false); 
+  }
+
+  function showSignUp() {
+    setSignin(false);
+    setSignup(true);
+    setShowForm(true);
+    setForgotPassword(false); 
+  }
+
+  function handleForgotPassword() {
+    setForgotPassword(true);
+    setShowForm(true);
+  }
+
+  function handleContinueWithEmail() {
+    setShowForm(true);
   }
 
   return (
-    <div>
-     
-      {signin || signup ? (
-        <div className=" hidden h-full fixed w-full md:flex justify-center items-center flex-col  top-0 bg-slate-500 bg-opacity-60 z-40">
-          <span className="left-36 top-9 absolute w-8 h-8 flex justify-center items-center rounded-full bg-slate-300 cursor-pointer" onClick={handleClose}>
-            <ImCross />
-          </span>
-          <div className="w-3/4 h-4/5  bg-yellow-100 flex justify-between ">
-            <div className="relative w-1/3 h-full bg-white">
-              <Signup />
-            </div>
-            <div className="relative w-1/3 h-full bg-slate-300">
-              <Login />
-            </div>
-            <div
-              className={`absolute w-1/2  h-4/5 bg-green-200 object-fill ${
-                signup ? "ml-[25%] duration-700 ease-in-out" : ""
-              } ${!signup ? 'ml-0 duration-700 ease-in-out' : ''}`}
-            >
-              {
-                !signup ? (<img className=" w-full h-full " src="login.svg" alt="error" />)
-                :
-                (<img className=" w-full h-full" src="signup.svg" alt="error" />)
-              
-              }
-            </div>
-          </div>
-        </div>
-      ) : null}
+    <>
+      {(signin || signup) && (
+        <div className="bg-black bg-opacity-45 fixed z-[5000] w-full h-full top-0 flex justify-center items-center">
+          <div className="bg-white max-w-xs p-5 flex flex-col gap-5 rounded-lg border relative">
+            <span>
+              <ImCross onClick={handleClose} className="absolute bg-gray-100 p-1 rounded-full text-xl cursor-pointer left-4 top-4" />
+            </span>
 
-      {signin || signup ? (
-        <div className=" md:hidden h-full fixed w-full flex justify-center items-center flex-col  top-0 bg-slate-500 bg-opacity-60 z-40">
-          <span className=" top-5 absolute w-8 h-8 flex justify-center items-center rounded-full bg-slate-100 cursor-pointer" onClick={handleClose}>
-            <ImCross />
-          </span>
-          <div className="w-[90%] h-[82%]  bg-yellow-100 flex  ">
-            <div className={` w-full h-full bg-white ${signin ? 'hidden':''}`}>
-              <Signup />
-            </div>
-            <div className={`w-full h-full bg-slate-300 ${signup ? 'hidden':''}`}>
-              <Login />
-            </div>
-    
+            {!showForm ? (
+              <>
+                <div className="flex flex-col gap-2">
+                  <div className="w-full flex justify-center items-center text-2xl font-bold">Welcome!</div>
+                  <div className="w-full text-center text-gray-400 leading-tight">Use your email or other services to continue with us.</div>
+                </div>
+                <div className="w-full flex flex-col gap-3">
+                  <button className="w-full py-2 bg-gray-100 rounded-lg text-sm font-semibold flex items-center justify-center gap-4">
+                    <FaGoogle /> Continue with Google
+                  </button>
+                  <button className="w-full py-2 bg-gray-100 rounded-lg text-sm font-semibold flex items-center justify-center gap-4">
+                    <FaFacebook /> Continue with Facebook
+                  </button>
+                  <button className="w-full py-2 bg-black text-white rounded-lg text-sm font-semibold flex items-center justify-center" onClick={handleContinueWithEmail}>
+                    Continue with Email
+                  </button>
+                </div>
+              </>
+            ) : forgotPassword ? (
+              <ForgotPassword onShowSignIn={showSignIn} />
+            ) : signin ? (
+              <SignIn onShowSignUp={showSignUp} onForgotPassword={handleForgotPassword} />
+            ) : (
+              <Signup onShowSignIn={showSignIn} />
+            )}
           </div>
         </div>
-      ) : null}
-    </div>
+      )}
+    </>
   );
 };
 

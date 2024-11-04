@@ -1,9 +1,10 @@
-// AuthenticationContextProvider.js
 import React, { createContext, useState, useEffect } from "react";
 import toast from 'react-hot-toast';
-import { saveToken } from '../components/AuthService';
-import { getToken, removeToken } from '../components/AuthService';
+import { saveToken, getToken, removeToken } from '../components/AuthService';
+
 export const Authentication = createContext();
+
+const API_BASE_URL = "https://colorpalettebackend.onrender.com/api/v1";
 
 const AuthenticationContextProvider = ({ children }) => {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
@@ -26,18 +27,11 @@ const AuthenticationContextProvider = ({ children }) => {
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
-    const url = "https://colorpalettebackend.onrender.com/api/v1/signup";
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${API_BASE_URL}/signup`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           firstname: formData.firstname,
           lastname: formData.lastname,
@@ -45,108 +39,103 @@ const AuthenticationContextProvider = ({ children }) => {
           password: formData.password,
         }),
       });
-
       const json = await res.json();
-      if(json.msg === "User already exists"){
+
+      if (json.msg === "User already exists") {
         toast.error("User already exists");
-        setLoading(false);
-      }
-      if (json.success) {
+      } else if (json.success) {
         toast.success("Signup successful");
-        setLoading(false);
-        setSignin(true)
-        setSignup(false)
+        setSignin(true);
+        setSignup(false);
       }
-    } catch (e) {
-      console.error("Error during signup:", e);
+    } catch (error) {
+      console.error("Error during signup:", error);
+      toast.error("Signup failed, please try again");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
     try {
-      const response = await fetch("https://colorpalettebackend.onrender.com/api/v1/login", {
+      const response = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: credentials.email,
           password: credentials.password,
         }),
       });
       const json = await response.json();
-      // console.log("json login login response ", json);
+
       if (json.success) {
         setIsLoggedIn(true);
-        saveToken(response.token);
+        saveToken(json.token);
         toast.success("Successfully Logged In");
-        setLoading(false)
         setUserId(json.userId);
       } else {
         toast.error("Invalid credentials");
       }
     } catch (error) {
       console.error("Error during login:", error);
+      toast.error("Login failed, please try again");
+    } finally {
+      setLoading(false);
     }
   };
 
   const handleSave = async () => {
-    setLoading(true)
-    const url = 'https://colorpalettebackend.onrender.com/api/v1/save';
+    setLoading(true);
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${API_BASE_URL}/save`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: userId.toString(),
-          paletteData: singlepalette
+          paletteData: singlepalette,
         }),
       });
       const json = await res.json();
       if (json.success) {
-        toast.success('Color saved ');
-        setLoading(false)
+        toast.success('Color saved successfully');
         handleGetSave();
       } else {
         toast.error('Failed to save color');
       }
-    } catch (e) {
-      // console.log(e);
-      console.error(e)
+    } catch (error) {
+      console.error("Error while saving color:", error);
       toast.error('Error while saving color');
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const SaveFullPalette = async (colors) => {
-    const url = 'https://colorpalettebackend.onrender.com/api/v1/savefullpalette';
-    setLoading(true)
+    setLoading(true);
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${API_BASE_URL}/savefullpalette`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: userId.toString(),
-          paletteData: colors
+          paletteData: colors,
         }),
       });
       const json = await res.json();
       if (json.success) {
-        toast.success('palette saved ');
-        setLoading(false)
+        toast.success('Palette saved successfully');
       } else {
         toast.error('Failed to save palette');
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error("Error while saving palette:", error);
       toast.error('Error while saving palette');
+    } finally {
+      setLoading(false);
     }
-  }
+  };
 
   const handleGetSave = async () => {
     setLoading(true);
@@ -157,46 +146,46 @@ const AuthenticationContextProvider = ({ children }) => {
           "Content-Type": "application/json",
         },
       });
+      
+      if (!res.ok) {
+        throw new Error(`Error: ${res.status} ${res.statusText}`);
+      }
+      
       const json = await res.json();
-      // console.log("json in get", json);
       if (json.success) {
         setSingleColor(json.savedPalettes);
       }
     } catch (e) {
-      console.error(e);
+      console.error("Error while fetching saved colors:", e);
+      toast.error('Failed to fetch saved colors');
     } finally {
       setLoading(false);
     }
-  }
+  };
+  
 
   const getFullPalette = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`https://colorpalettebackend.onrender.com/api/v1/getfullpalette/${userId}`, {
+      const res = await fetch(`${API_BASE_URL}/getfullpalette/${userId}`, {
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
       });
       const json = await res.json();
-      // console.log("json in get", json);
       if (json.success) {
         setFullPalette(json.savedPalettes);
       }
-    } catch (e) {
-      console.error(e);
+    } catch (error) {
+      console.error("Error while fetching full palette:", error);
+      toast.error("Failed to load saved palettes");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     const token = getToken();
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
+    setIsLoggedIn(!!token);
   }, []);
 
   const states = {

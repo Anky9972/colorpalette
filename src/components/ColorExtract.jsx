@@ -14,13 +14,11 @@ const ColorExtract = () => {
   const [isUrlMode, setIsUrlMode] = useState(false);
   const [captured,setCaptured] = useState(false);
   const videoRef = React.useRef();
-  // console.log('is camerea open',isCameraOpen)
 
   useEffect(() => {
     if (selectedImage) {
       extractColors(selectedImage)
         .then((colors) => {
-          // console.log('Extracted Colors:', colors);
           setExtractedColors(colors);
         })
         .catch((error) => {
@@ -35,7 +33,6 @@ const ColorExtract = () => {
     toast.success(`Color copied to clipboard!`);
   }
 
-  // Function to open camera
   const openCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -46,7 +43,6 @@ const ColorExtract = () => {
     }
   };
 
-  // Function to close camera
   const closeCamera = () => {
     if (videoRef.current && videoRef.current.srcObject) {
       const stream = videoRef.current.srcObject;
@@ -62,7 +58,6 @@ const ColorExtract = () => {
     setIsCameraOpen(false);
   };
 
- // Function to capture photo
 const capturePhoto = () => {
   const canvas = document.createElement('canvas');
   canvas.width = videoRef.current.videoWidth;
@@ -76,14 +71,11 @@ const capturePhoto = () => {
 };
 
  
-  // Function to retake photo
   const retakePhoto = () => {
     setSelectedImage(null);
     setIsCameraOpen(true);
-    // console.log('clicked retake')
   };
 
-  // Function to handle URL input
 const handleUrlSubmit = async (e) => {
   e.preventDefault();
 
