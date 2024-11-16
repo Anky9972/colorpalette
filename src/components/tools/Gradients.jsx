@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { motion } from "framer-motion";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { Authentication } from "../../context/Authentication";
+import ExploreMenu from "../explore/ExploreMenu";
 
 const generateGradient = () => {
   const randomColor = () =>
@@ -23,7 +25,9 @@ const getContrastColor = (hexColor) => {
 const GradientPalette = () => {
   const [gradients, setGradients] = useState([]);
   const [loading, setLoading] = useState(false);
-
+  const {SaveFullPalette} = useContext(Authentication);
+  const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
+  const [exploremenu, setExploremenu] = useState(false);
   useEffect(() => {
     loadMoreGradients();
   }, []);
@@ -55,7 +59,10 @@ const GradientPalette = () => {
     window.addEventListener("scroll", debounceScroll);
     return () => window.removeEventListener("scroll", debounceScroll);
   }, [loading]);
-
+  const toggleMenuVisibility = (index) => {
+    setVisibleMenuIndex(prevIndex => (prevIndex === index ? null : index));
+    setExploremenu(!exploremenu);
+  };
   return (
     <div className="w-full flex flex-col gap-5 lg:gap-10 p-8">
       <div className="py-10">
@@ -100,10 +107,11 @@ const GradientPalette = () => {
             </motion.div>
             <div className="w-full flex justify-end gap-2">
               <span>
-                <CiHeart className="text-lg" />
+                <CiHeart className="text-lg" onClick={()=>SaveFullPalette(colors)}/>
               </span>
               <span>
-                <HiOutlineDotsHorizontal className="text-lg" />
+                <HiOutlineDotsHorizontal className="text-lg" onClick={() => toggleMenuVisibility(index)}/>
+                {(visibleMenuIndex === index && exploremenu) && <ExploreMenu setExploremenu={setExploremenu} index={index}/>}
               </span>
             </div>
           </div>

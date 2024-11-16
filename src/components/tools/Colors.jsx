@@ -1,7 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
 import colorNames from "color-name-list";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { Authentication } from "../../context/Authentication";
+import ExploreMenu from "../explore/ExploreMenu";
+import { motion } from "framer-motion";
 
 const getColorCategory = (hex) => {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -25,7 +28,9 @@ const Colors = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loadCount, setLoadCount] = useState(20);
   const [loading, setLoading] = useState(false);
-
+  const {handleSave} = useContext(Authentication);
+  const [visibleMenuIndex, setVisibleMenuIndex] = useState(null);
+  const [exploremenu, setExploremenu] = useState(false);
   const observerRef = useRef(null);
 
   useEffect(() => {
@@ -83,6 +88,10 @@ const Colors = () => {
     const b = rgb & 0xff;
     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
     return brightness > 128 ? "#000000" : "#FFFFFF"; 
+  };
+  const toggleMenuVisibility = (index) => {
+    setVisibleMenuIndex(prevIndex => (prevIndex === index ? null : index));
+    setExploremenu(!exploremenu);
   };
   return (
     <div className="p-8 flex flex-col gap-5 lg:gap-10">
@@ -177,8 +186,8 @@ const Colors = () => {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 lg:gap-8">
-        {visibleColors.map((color) => (
-          <div className="flex flex-col gap-2 ">
+        {visibleColors.map((color,index) => (
+          <div className="flex flex-col gap-2 " key={index}>
             <div
               key={color.hex}
               className="rounded-lg h-32 lg:h-24 w-full border "
@@ -192,10 +201,11 @@ const Colors = () => {
               <p className="text-black font-semibold text-xs ">{color.name}</p>
               <div className="flex gap-2">
                 <span>
-                  <CiHeart className="text-lg" />
+                  <CiHeart className="text-lg" onClick={()=>handleSave(color.hex)}/>
                 </span>
                 <span>
-                  <HiOutlineDotsHorizontal className="text-lg" />
+                  <HiOutlineDotsHorizontal className="text-lg" onClick={() => toggleMenuVisibility(index)} />
+                  {(visibleMenuIndex === index && exploremenu) && <ExploreMenu setExploremenu={setExploremenu} index={index}/>}
                 </span>
               </div>
             </div>
@@ -205,8 +215,12 @@ const Colors = () => {
 
       <div ref={observerRef} className="h-10 mt-6"></div>
        {loading && (
-        <div className="flex justify-center w-full my-4">
-          <div className="loader border-t-4 border-black rounded-full w-10 h-10 animate-spin"></div>
+        <div className='w-full flex justify-center items-center'>
+        <motion.div 
+          className="w-10 h-10 border-2 border-t-black border-gray-300 rounded-full"
+          animate={{ rotate: 360 }}
+          transition={{ ease: "linear", repeat: Infinity, duration: 0.5 }}
+        ></motion.div>
         </div>
       )}
     </div>

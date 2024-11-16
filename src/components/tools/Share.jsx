@@ -14,7 +14,7 @@ function Share({setShare, share, handleEmbeddbutton}) {
     const { colors } = useContext(ColorState);
   return (
     <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute ">
-            <div className=" max-w-xs md:w-[30%] mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
+            <div className=" w-full max-w-xs  mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
               <div className="w-full py-2  flex justify-center items-center border-b border-slate-150 relative">
                 <span
                   className="absolute left-1 rounded-lg flex p-1 hover:bg-gray-100 justify-center items-center hover:cursor-pointer"

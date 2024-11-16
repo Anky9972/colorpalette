@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoCloseSharp } from "react-icons/io5";
 import chroma from "chroma-js";
 import { GoDotFill } from "react-icons/go";
 import nearestColor from "nearest-color";
 import colorNameList from "color-name-list";
-import { ColorState } from "../../context/ColorState";
 
-function View({ view, setView, setViewColor, viewColor }) {
-  const { colors } = useContext(ColorState);
-
+function QuickView({ quickview, setQuickview, selectedColors }) {
+  const [viewColor, setViewColor] = useState("");
   const [rgb, setRgb] = useState("");
   const [hex, setHex] = useState("");
   const [hslColor, setHslColor] = useState([]);
@@ -23,9 +21,16 @@ function View({ view, setView, setViewColor, viewColor }) {
   const formattedCmykColor = cmykColor.map(value => value.toFixed(3)).join(", ");
   const formattedLabColor = labColor.map(value => value.toFixed(3)).join(", ");
 
-  const luminance = chroma.contrast("black", viewColor) > chroma.contrast("white", viewColor) ? "black" : "white";
+  // Calculate luminance and default to black if viewColor is invalid
+  const luminance = viewColor && chroma.valid(viewColor)
+    ? chroma.contrast("black", viewColor) > chroma.contrast("white", viewColor)
+      ? "black"
+      : "white"
+    : "black";
 
   const generateColors = () => {
+    if (!chroma.valid(viewColor)) return; // Ensure viewColor is valid
+
     const rgbValues = viewColor.match(/\d+/g).map(Number);
     const chromaColor = chroma.rgb(rgbValues);
 
@@ -45,10 +50,10 @@ function View({ view, setView, setViewColor, viewColor }) {
   }, [viewColor]);
 
   useEffect(() => {
-    if (colors.length > 0) {
-      setViewColor(colors[0].rgb);
+    if (selectedColors.length > 0) {
+      setViewColor(selectedColors[0].rgb);
     }
-  }, [colors, setViewColor]);
+  }, [selectedColors, setViewColor]);
 
   const colorsMap = colorNameList.reduce((acc, color) => {
     acc[color.name] = color.hex;
@@ -63,11 +68,11 @@ function View({ view, setView, setViewColor, viewColor }) {
 
   return (
     <div className="w-full h-screen z-50 left-0 top-0 flex justify-center items-center bg-slate-950 bg-opacity-40 absolute">
-      <div className="w-full max-w-sm h-3/5 mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
+      <div className="w-full md:max-w-sm mt-8 rounded-xl bg-white overflow-hidden flex flex-col">
         <div className="w-full h-16 flex justify-center items-center relative">
           <span
             className="absolute left-1 rounded-lg p-1 hover:bg-slate-100 flex justify-center items-center hover:cursor-pointer"
-            onClick={() => setView(!view)}
+            onClick={() => setQuickview(!quickview)}
           >
             <IoCloseSharp className="text-xl" />
           </span>
@@ -110,7 +115,7 @@ function View({ view, setView, setViewColor, viewColor }) {
         </div>
         <div className="w-full h-32 flex justify-center items-center px-6">
           <div className="w-full rounded-xl overflow-hidden flex flex-row justify-center">
-            {colors.map((color, index) => (
+            {selectedColors.map((color, index) => (
               <div
                 key={index}
                 style={{ backgroundColor: color.rgb }}
@@ -130,4 +135,4 @@ function View({ view, setView, setViewColor, viewColor }) {
   );
 }
 
-export default View;
+export default QuickView;

@@ -2,13 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import colorNameList from "color-name-list";
 import nearestColor from "nearest-color";
 import { toast } from "react-hot-toast";
-import {
-  FaHeart,
-  FaLock,
-  FaRegCopy,
-  FaRegHeart,
-  FaUnlock,
-} from "react-icons/fa";
+import { FaLock, FaRegCopy, FaUnlock } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { ColorState } from "../context/ColorState";
 import { Authentication } from "../context/Authentication";
@@ -38,7 +32,6 @@ function Generate() {
   } = useContext(Authentication);
   const [colorPalette, setColorPalette] = useState([]);
   const [lock, setLock] = useState([false, false, false, false, false]);
-  const [liked, setLiked] = useState([false, false, false, false, false]);
 
   // const [showsavedcolors, setShowsavedcolors] = useState(true);
   const [mobileTool, setMobileTool] = useState(false);
@@ -165,25 +158,17 @@ function Generate() {
               </div>
 
               <div className=" absolute right-2 mb-16">
-                <button
+                <CiHeart
+                  className="text-xl"
                   onClick={() => {
-                    const newLiked = [...liked];
-                    newLiked[index] = !newLiked[index];
                     if (isLoggedIn) {
-                      setLiked(newLiked);
                       setSinglePalette(color.hex);
-                      handleSave();
+                      handleSave(color.hex);
                     } else {
                       toast.error("Please Login to your account.");
                     }
                   }}
-                >
-                  {!liked[index] ? (
-                    <CiHeart className="text-2xl" />
-                  ) : (
-                    <FaHeart />
-                  )}
-                </button>
+                />
               </div>
             </div>
             <div className="hidden lg:flex flex-col mb-20 h-full w-full justify-end items-center">
@@ -193,21 +178,17 @@ function Generate() {
                 className="flex flex-col w-full justify-end items-center mb-10 gap-4 h-full "
               >
                 <div>
-                  <button
+                  <CiHeart
+                    className="text-xl"
                     onClick={() => {
-                      const newLiked = [...liked];
-                      newLiked[index] = !newLiked[index];
                       if (isLoggedIn) {
-                        setLiked(newLiked);
                         setSinglePalette(color.hex);
-                        handleSave();
+                        handleSave(color.hex);
                       } else {
                         toast.error("Please Login to your account.");
                       }
                     }}
-                  >
-                    {!liked[index] ? <CiHeart className="text-2xl" /> : <FaHeart />}
-                  </button>
+                  />
                 </div>
                 <div>
                   <button

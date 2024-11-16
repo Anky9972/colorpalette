@@ -54,6 +54,7 @@ function Navbar() {
 
   const handleLogout = () => {
     removeToken();
+    localStorage.removeItem('userId');
     setIsLoggedIn(false);
   };
 
@@ -79,8 +80,8 @@ function Navbar() {
               />
             </button>
           </div>
-          <div className="w-1/3 flex justify-start items-center">
-            <h1 className="text-3xl font-extrabold">
+          <div className="lg:w-1/3 flex justify-start items-center">
+            <h1 className="text-3xl font-bold font-[yellowtail]">
               <NavLink to="/">
                 {/* {text.map((el, i) => (
                   <motion.span
@@ -200,20 +201,20 @@ function Navbar() {
                   </div>
 
                   {/* Right Column */}
-                  <div className="w-1/3 bg-gray-50 space-y-1 text-gray-900 p-4">
-                    <p className="font-semibold" onClick={()=>navigate("/colors")}>
+                  <div className="w-1/3 bg-gray-50 space-y-1 text-sm text-gray-900 p-4">
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/colors")}>
                       List of colors{" "}
                       {/* <span className="text-orange-500 text-xs bg-orange-100 rounded-full px-2">
                         NEW
                       </span> */}
                     </p>
-                    <p className="font-semibold" onClick={()=>navigate("/gradients")}>Browse Gradients</p>
-                    <p className="font-semibold">Create a Gradient</p>
-                    <p className="font-semibold">Make a Gradient Palette</p>
-                    <p className="font-semibold">Color Picker</p>
-                    <p className="font-semibold">Collage Maker</p>
-                    <p className="font-semibold">List of Fonts</p>
-                    <p className="font-semibold">Image Converter</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/gradients")}>Browse Gradients</p>
+                    <p className="font-semibold cursor-pointer"  onClick={()=>navigate("/gradient-maker")}>Create a Gradient</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/gradient-palette")}>Make a Gradient Palette</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/gradients")}>Color Picker</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/upcoming")}>Collage Maker</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/upcoming")}>List of Fonts</p>
+                    <p className="font-semibold cursor-pointer" onClick={()=>navigate("/upcoming")}>Image Converter</p>
                     {/* <h4 className="font-semibold mt-4">APPS</h4>
             <p>iOS App</p>
             <p>Android App</p>

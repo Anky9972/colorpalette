@@ -6,6 +6,11 @@
   font-family: 'gentle';
   src: url('./fonts//MADE\ Gentle\ PERSONAL\ USE.otf') format('opentype');
 }
+@font-face {
+  font-family: 'gochihand';
+  src: url('./fonts/GochiHand-Regular.ttf') format('truetype');
+}
+
 
 
 /* body{

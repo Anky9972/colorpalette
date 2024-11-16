@@ -25,6 +25,7 @@ const AuthenticationContextProvider = ({ children }) => {
   const [fullPalette, setFullPalette] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Handle Signup
   const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,6 +48,11 @@ const AuthenticationContextProvider = ({ children }) => {
         toast.success("Signup successful");
         setSignin(true);
         setSignup(false);
+
+        // Save userId to localStorage and Token
+        localStorage.setItem('userId', json.userId); 
+        saveToken(json.token);  // Save token
+        setUserId(json.userId);
       }
     } catch (error) {
       console.error("Error during signup:", error);
@@ -56,6 +62,7 @@ const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  // Handle Login
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -72,8 +79,11 @@ const AuthenticationContextProvider = ({ children }) => {
 
       if (json.success) {
         setIsLoggedIn(true);
-        saveToken(json.token);
+        saveToken(json.token);  // Save token
         toast.success("Successfully Logged In");
+
+        // Save userId to localStorage
+        localStorage.setItem('userId', json.userId); 
         setUserId(json.userId);
       } else {
         toast.error("Invalid credentials");
@@ -86,7 +96,8 @@ const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
-  const handleSave = async () => {
+  // Save Color to Database
+  const handleSave = async (color) => {
     setLoading(true);
     try {
       const res = await fetch(`${API_BASE_URL}/save`, {
@@ -94,7 +105,7 @@ const AuthenticationContextProvider = ({ children }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           userId: userId.toString(),
-          paletteData: singlepalette,
+          paletteData: color,
         }),
       });
       const json = await res.json();
@@ -112,6 +123,7 @@ const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  // Save Full Palette
   const SaveFullPalette = async (colors) => {
     setLoading(true);
     try {
@@ -137,6 +149,7 @@ const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  // Get Saved Colors
   const handleGetSave = async () => {
     setLoading(true);
     try {
@@ -162,8 +175,8 @@ const AuthenticationContextProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  
 
+  // Get Full Palette
   const getFullPalette = async () => {
     setLoading(true);
     try {
@@ -183,11 +196,28 @@ const AuthenticationContextProvider = ({ children }) => {
     }
   };
 
+  // Check if the user is logged in using getToken and set userId
   useEffect(() => {
     const token = getToken();
-    setIsLoggedIn(!!token);
+    const userIdFromLocalStorage = localStorage.getItem('userId');
+    if (token && userIdFromLocalStorage) {
+      setIsLoggedIn(true);
+      setUserId(userIdFromLocalStorage);
+    } else {
+      setIsLoggedIn(false);
+    }
   }, []);
 
+  // Handle Logout
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    setUserId("");
+    removeToken();
+    localStorage.removeItem('userId');  // Clear userId from localStorage
+    toast.success("Successfully logged out");
+  };
+
+  // Provider value
   const states = {
     credentials,
     setCredentials,
@@ -209,6 +239,7 @@ const AuthenticationContextProvider = ({ children }) => {
     SaveFullPalette,
     getFullPalette,
     fullPalette,
+    handleLogout,
     removeToken,
     loading
   };

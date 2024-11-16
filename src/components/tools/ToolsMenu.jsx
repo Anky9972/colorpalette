@@ -15,9 +15,9 @@ const ToolsMenu = () => {
   } = useContext(Authentication);
 
   return (
-    <div className=" bg-black bg-opacity-45 w-full flex flex-col items-end md:flex-[1.2] right-0 fixed md:relative md:z-0 z-30 top-0 h-full">
+    <div className="bg-black bg-opacity-45 w-full flex flex-col items-end md:flex-[1.2] right-0 fixed md:relative md:z-0 z-30 top-0 h-full">
       <motion.div
-        className="h-full  bg-white w-11/12 md:w-full"
+        className="h-full bg-white w-11/12 md:w-full"
         initial={{ flex: 0 }}
         animate={{ flex: 2 }}
         transition={{ duration: 1 }}
@@ -44,54 +44,63 @@ const ToolsMenu = () => {
             </button>
           </div>
         </div>
-        <div className="w-full h-full flex flex-col justify-center items-start p-4 overflow-auto">
-          {isLoggedIn ? (
-            showsavedcolors ? (
-              <div className="w-full h-full flex flex-col gap-1">
-                {singleColor.length > 0 ? (
-                  singleColor.map((saved, index) => (
-                    <div
-                      key={index}
-                      style={{ backgroundColor: saved }}
-                      className="w-full h-10 my-1 rounded-lg"
-                    ></div>
-                  ))
-                ) : (
-                  <p className="w-full text-center">Your saved colors will appear here.</p>
-                )}
-              </div>
+
+        {/* Scrollable container */}
+        <div className="flex-1 overflow-hidden p-4">
+          <div
+            className="overflow-y-auto"
+            style={{
+              maxHeight: "calc(100vh - 100px)", // Ensure space for header
+            }}
+          >
+            {isLoggedIn ? (
+              showsavedcolors ? (
+                <div className="w-full flex flex-col gap-1">
+                  {singleColor.length > 0 ? (
+                    singleColor.map((saved, index) => (
+                      <div
+                        key={index}
+                        style={{ backgroundColor: saved }}
+                        className="w-full h-10 my-1 rounded-lg"
+                      ></div>
+                    ))
+                  ) : (
+                    <p className="w-full text-center">Your saved colors will appear here.</p>
+                  )}
+                </div>
+              ) : (
+                <div className="w-full flex flex-col gap-1">
+                  {fullPalette.length > 0 ? (
+                    fullPalette.map((palette, paletteIndex) => (
+                      <div
+                        key={paletteIndex}
+                        className="flex rounded-xl overflow-hidden my-1"
+                      >
+                        {palette.map((color, colorIndex) => (
+                          <div
+                            key={colorIndex}
+                            style={{ backgroundColor: color.hex }}
+                            className="w-full h-10"
+                          ></div>
+                        ))}
+                      </div>
+                    ))
+                  ) : (
+                    <p className="w-full text-center">Your saved palettes will appear here.</p>
+                  )}
+                </div>
+              )
             ) : (
-              <div className="w-full h-full flex flex-col gap-1">
-                {fullPalette.length > 0 ? (
-                  fullPalette.map((palette, paletteIndex) => (
-                    <div
-                      key={paletteIndex}
-                      className="flex rounded-xl overflow-hidden my-1"
-                    >
-                      {palette.map((color, colorIndex) => (
-                        <div
-                          key={colorIndex}
-                          style={{ backgroundColor: color.hex }}
-                          className="w-full h-10"
-                        ></div>
-                      ))}
-                    </div>
-                  ))
-                ) : (
-                  <p className="w-full text-center">Your saved palettes will appear here.</p>
-                )}
+              <div className="w-full flex justify-center">
+                <button
+                  className="px-2 py-2 bg-black rounded-lg text-white text-sm font-bold"
+                  onClick={() => setSignin(!signin)}
+                >
+                  Sign in
+                </button>
               </div>
-            )
-          ) : (
-            <div className="w-full flex justify-center">
-              <button
-                className="px-2 py-2 bg-black rounded-lg text-white text-sm font-bold"
-                onClick={() => setSignin(!signin)}
-              >
-                Sign in
-              </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </motion.div>
     </div>

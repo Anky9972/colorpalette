@@ -14,6 +14,8 @@ import { VscWand } from "react-icons/vsc";
 import { CiLink } from "react-icons/ci";
 import { GoEye } from "react-icons/go";
 import { BiFullscreen } from "react-icons/bi";
+import View from "./tools/View";
+import QuickView from "./tools/QuickView";
 
 const ImagePicker = () => {
   const [image, setImage] = useState(img);
@@ -23,7 +25,8 @@ const ImagePicker = () => {
   const [circles, setCircles] = useState([]); 
   const [pickedPalette, setPickedPalette] = useState([]); 
   const [more, setMore] = useState(false);
-
+  const [quickview, setQuickview] = useState(false);
+  const [viewfull, setViewFull] = useState(false);
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -197,18 +200,18 @@ const ImagePicker = () => {
                 className="hidden"
                 onChange={handleImageUpload}
               />
-              <div className="flex items-center justify-center w-full px-4 py-2 mt-4 text-blue-500 border rounded-md cursor-pointer hover:bg-blue-50">
+              <div className="flex items-center justify-center w-full px-4 py-2 mt-4 text-black border rounded-md cursor-pointer hover:bg-blue-50">
                 <FaImage className="mr-2" /> Browse Image
               </div>
             </label>
             <div className="flex relative">
               <button
                 onClick={exportPalette}
-                className="flex items-center justify-center w-full px-4 py-2 mt-2 text-white bg-blue-500 rounded-l-md hover:bg-blue-600"
+                className="flex items-center justify-center w-full px-4 py-2 mt-2 text-white bg-black rounded-l-md hover:bg-gray-900"
               >
                 <FaDownload className="mr-2" /> Export Palette
               </button>
-              <button className="bg-blue-500 rounded-r-md hover:bg-blue-600 p-2 mt-2" onClick={()=>setMore(!more)}>
+              <button className="bg-black rounded-r-md hover:bg-gray-900 p-2 mt-2" onClick={()=>setMore(!more)}>
                 <ChevronDown className="text-white" />
               </button>
               {more && (
@@ -227,7 +230,7 @@ const ImagePicker = () => {
                       </span>
                       <span className="text-sm font-semibold">Copy URL</span>
                     </li>
-                    <li className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer">
+                    <li className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer" onClick={()=>setQuickview(!quickview)}>
                       <span>
                         <GoEye />
                       </span>
@@ -237,7 +240,7 @@ const ImagePicker = () => {
                       <span>
                         <BiFullscreen />
                       </span>
-                      <span className="text-sm font-semibold">View fullscreen</span>
+                      <span className="text-sm font-semibold" onClick={()=>setViewFull(!viewfull)}>View fullscreen</span>
                     </li>
                     <li className="flex items-center gap-2 hover:bg-gray-100 px-2 py-1 rounded-md cursor-pointer">
                       <span>
@@ -285,6 +288,28 @@ const ImagePicker = () => {
               onDrag={(event) => updateCirclePosition(index, event)}
             />
           ))}
+          {
+            quickview && (
+              <div className="fixed w-full h-full z-30 top-0 left-0">
+
+              <QuickView quickview={quickview} setQuickview={setQuickview} selectedColors={selectedColors}/>
+              </div>
+            )
+          }
+          {
+            viewfull && (
+              <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+                {selectedColors.map((color, index) => (
+                <div
+                  key={index}
+                  className="flex-1 h-full cursor-pointer"
+                  style={{ backgroundColor: color }}
+                  onClick={() => toggleColorSelection(color)}
+                />
+              ))}
+              </div>
+            )
+          }
         </div>
       </div>
     </div>
