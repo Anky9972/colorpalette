@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useContext } from "react";
-import colorNames from "color-name-list";
+import {colornames} from "color-name-list";
 import { CiHeart } from "react-icons/ci";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
 import { Authentication } from "../../context/Authentication";
@@ -34,7 +34,7 @@ const Colors = () => {
   const observerRef = useRef(null);
 
   useEffect(() => {
-    const sortedColors = colorNames.sort((a, b) =>
+    const sortedColors = colornames.sort((a, b) =>
       a.name.localeCompare(b.name)
     );
     setColors(sortedColors);

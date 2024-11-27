@@ -3,7 +3,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import chroma from "chroma-js";
 import { GoDotFill } from "react-icons/go";
 import nearestColor from "nearest-color";
-import colorNameList from "color-name-list";
+import {colornames} from "color-name-list";
 
 function QuickView({ quickview, setQuickview, selectedColors }) {
   const [viewColor, setViewColor] = useState("");
@@ -55,7 +55,7 @@ function QuickView({ quickview, setQuickview, selectedColors }) {
     }
   }, [selectedColors, setViewColor]);
 
-  const colorsMap = colorNameList.reduce((acc, color) => {
+  const colorsMap = colornames.reduce((acc, color) => {
     acc[color.name] = color.hex;
     return acc;
   }, {});

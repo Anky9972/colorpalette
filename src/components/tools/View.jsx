@@ -3,7 +3,7 @@ import { IoCloseSharp } from "react-icons/io5";
 import chroma from "chroma-js";
 import { GoDotFill } from "react-icons/go";
 import nearestColor from "nearest-color";
-import colorNameList from "color-name-list";
+import { colornames } from "color-name-list";
 import { ColorState } from "../../context/ColorState";
 
 function View({ view, setView, setViewColor, viewColor }) {
@@ -50,7 +50,7 @@ function View({ view, setView, setViewColor, viewColor }) {
     }
   }, [colors, setViewColor]);
 
-  const colorsMap = colorNameList.reduce((acc, color) => {
+  const colorsMap = colornames.reduce((acc, color) => {
     acc[color.name] = color.hex;
     return acc;
   }, {});

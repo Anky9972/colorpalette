@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import colorNameList from 'color-name-list';
+import colornames from 'color-name-list';
 import { toast } from 'react-hot-toast';
 import { Authentication } from '../context/Authentication';
 import { ColorState } from '../context/ColorState';

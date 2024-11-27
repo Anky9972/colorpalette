@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import colorNameList from "color-name-list";
+import { colornames } from "color-name-list";
 import nearestColor from "nearest-color";
 import { toast } from "react-hot-toast";
 import { FaLock, FaRegCopy, FaUnlock } from "react-icons/fa";
@@ -68,7 +68,7 @@ function Generate() {
     toast.success(`Color copied to clipboard!`);
   }
 
-  const colors = colorNameList.reduce((obj, color) => {
+  const colors = colornames.reduce((obj, color) => {
     obj[color.name] = color.hex;
     return obj;
   }, {});
