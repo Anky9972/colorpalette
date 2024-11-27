@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ColorExtractor } from "react-color-extractor";
+// import { ColorExtractor } from "react-color-extractor";
 import {
   FaImage,
   FaDownload,
