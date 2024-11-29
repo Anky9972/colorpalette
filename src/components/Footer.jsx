@@ -2,24 +2,6 @@ import React from "react";
 import { FaFacebookF, FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
-const FooterLink = ({ href, children }) => (
-  <motion.li
-    whileHover={{ x: 5 }}
-    transition={{ type: "spring", stiffness: 300 }}
-  >
-    <a
-      href={href}
-      className="hover:underline hover:text-purple-600 transition-colors duration-200 inline-block relative group"
-    >
-      <span className="relative z-10">{children}</span>
-      <motion.span
-        className="absolute bottom-0 left-0 w-0 h-0.5 bg-purple-600 group-hover:w-full transition-all duration-200"
-        whileHover={{ width: "100%" }}
-      />
-    </a>
-  </motion.li>
-);
-
 const SocialIcon = ({ children }) => (
   <motion.li
     whileHover={{ y: -3 }}
@@ -71,15 +53,15 @@ const Footer = () => {
             <h3 className="text-lg md:text-xl font-bold text-gray-900 after:content-[''] after:block after:w-12 after:h-1 after:bg-purple-500 after:mt-2">
               Tools
             </h3>
-            <ul className="space-y-2 md:space-y-3 text-gray-600">
-              <FooterLink href="/generate">Generate your palettes</FooterLink>
-              <FooterLink href="/explore">Explore popular palettes</FooterLink>
-              <FooterLink href="/explore/gradient">Explore gradient palettes</FooterLink>
-              <FooterLink href="/image-picker">Extract palette from image</FooterLink>
-              <FooterLink href="/contrast-checker">Contrast checker</FooterLink>
-              <FooterLink href="/upcoming">Preview palettes on designs</FooterLink>
-              <FooterLink href="/upcoming">Recolor your own design</FooterLink>
-              <FooterLink href="/upcoming">Color picker</FooterLink>
+            <ul className="flex flex-col space-y-2 text-gray-600">
+              <a href="/generate">Generate your palettes</a>
+              <a href="/explore">Explore popular palettes</a>
+              <a href="/explore/gradient">Explore gradient palettes</a>
+              <a href="/image-picker">Extract palette from image</a>
+              <a href="/contrast-checker">Contrast checker</a>
+              <a href="/upcoming">Preview palettes on designs</a>
+              <a href="/upcoming">Recolor your own design</a>
+              <a href="/upcoming">Color picker</a>
             </ul>
           </motion.div>
 
@@ -87,13 +69,13 @@ const Footer = () => {
             <h3 className="text-lg md:text-xl font-bold text-gray-900 after:content-[''] after:block after:w-12 after:h-1 after:bg-purple-500 after:mt-2">
               More
             </h3>
-            <ul className="space-y-2 md:space-y-3 text-gray-600">
-              <FooterLink href="/colors">List of colors</FooterLink>
-              <FooterLink href="/gradients">Browse gradients</FooterLink>
-              <FooterLink href="/gradient-maker">Create a gradient</FooterLink>
-              <FooterLink href="/gradient-palette">Make a gradient palette</FooterLink>
-              <FooterLink href="/upcoming">Image converter</FooterLink>
-              <FooterLink href="/upcoming">Create a collage</FooterLink>
+            <ul className="flex flex-col space-y-2 text-gray-600">
+              <a href="/colors">List of colors</a>
+              <a href="/gradients">Browse gradients</a>
+              <a href="/gradient-maker">Create a gradient</a>
+              <a href="/gradient-palette">Make a gradient palette</a>
+              <a href="/upcoming">Image converter</a>
+              <a href="/upcoming">Create a collage</a>
             </ul>
           </motion.div>
 
@@ -101,10 +83,10 @@ const Footer = () => {
             <h3 className="text-lg md:text-xl font-bold text-gray-900 after:content-[''] after:block after:w-12 after:h-1 after:bg-purple-500 after:mt-2">
               Company
             </h3>
-            <ul className="space-y-2 md:space-y-3 text-gray-600">
-              <FooterLink href="/terms">Terms of service</FooterLink>
-              <FooterLink href="privacy">Privacy policy</FooterLink>
-              <FooterLink href="/contact">Contact</FooterLink>
+            <ul className="flex flex-col space-y-2 text-gray-600">
+              <a href="/terms">Terms of service</a>
+              <a href="privacy">Privacy policy</a>
+              <a href="/contact">Contact</a>
             </ul>
           </motion.div>
         </div>
