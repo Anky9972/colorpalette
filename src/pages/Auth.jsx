@@ -5,12 +5,12 @@ import Signup from "../components/authentication/Signup";
 import { FaFacebook, FaGoogle } from "react-icons/fa";
 import SignIn from "../components/authentication/SignIn";
 import ForgotPassword from "./ForgotPassword";
+import GoogleOAuthComponent from "../components/authentication/GoogleOAuth";
 
 const Auth = () => {
   const { signin, signup, setSignin, setSignup, isLoggedIn } = useContext(Authentication);
   const [showForm, setShowForm] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
-
   useEffect(() => {
     if (isLoggedIn) {
       handleClose();
@@ -74,9 +74,10 @@ const Auth = () => {
                   <div className="w-full text-center text-gray-400 leading-tight">Use your email or other services to continue with us.</div>
                 </div>
                 <div className="w-full flex flex-col gap-3">
-                  <button className="w-full py-2 bg-gray-100 rounded-lg text-sm font-semibold flex items-center justify-center gap-4">
-                    <FaGoogle /> Continue with Google
-                  </button>
+                  {/* <button className="w-full py-2 bg-gray-100 rounded-lg text-sm font-semibold flex items-center justify-center gap-4"> */}
+                    {/* <FaGoogle /> Continue with Google */}
+                    <GoogleOAuthComponent/>
+                  {/* </button> */}
                   <button className="w-full py-2 bg-gray-100 rounded-lg text-sm font-semibold flex items-center justify-center gap-4">
                     <FaFacebook /> Continue with Facebook
                   </button>

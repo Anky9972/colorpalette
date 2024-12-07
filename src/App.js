@@ -57,7 +57,7 @@ function App() {
             <Route path="/generate" element={<Generate />} />
             <Route path="/extract" element={<ColorExtract />} />
             <Route path="/gradient-generate" element={<GradientColor />} />
-            <Route path="/image-picker" element={<ImagePicker />} />
+            {/* <Route path="/image-picker" element={<ImagePicker />} /> */}
             <Route path="/forgot" element={<ForgotPassword />} />
             <Route path="/contrast-checker" element={<ColorContrastChecker />} />
             <Route path="/colors" element={<Colors />} />

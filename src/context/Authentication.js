@@ -241,7 +241,8 @@ const AuthenticationContextProvider = ({ children }) => {
     fullPalette,
     handleLogout,
     removeToken,
-    loading
+    loading,
+    setUserId
   };
 
   return (
